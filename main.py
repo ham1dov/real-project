@@ -1,16 +1,27 @@
-# This is a sample Python script.
+import asyncio
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.fsm.storage.memory import MemoryStorage
+
+from config.config import token, admins
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
+async def main():
+    bot = Bot(token=token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    dp = Dispatcher(storage=MemoryStorage())
+    await bot.delete_webhook(drop_pending_updates=True)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    # dp.include_router(admin_router)
+    # dp.include_router(user_router)
+    try:
+        for admin in admins:
+            await bot.send_message(chat_id=admin, text='Launching...')
+    except:
+        print('There is a problem with launching bot or chat not found')
+    await dp.start_polling(bot)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+asyncio.run(main())
+
