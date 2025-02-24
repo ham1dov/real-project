@@ -8,6 +8,6 @@ from aiogram.filters import CommandStart
 from aiogram.types.message import Message
 user_router = Router()
 
-@user_router.message(CommandStart(), default_state=True)
+@user_router.message(CommandStart(), default_state)
 async def start_handler(message:Message):
-    await message.answer(commands['start'])
+    await message.answer('start')

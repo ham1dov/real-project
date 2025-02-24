@@ -6,7 +6,7 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from config.config import token, admins
-
+from handlers.user.start import user_router
 
 
 async def main():
@@ -15,7 +15,7 @@ async def main():
     await bot.delete_webhook(drop_pending_updates=True)
 
     # dp.include_router(admin_router)
-    # dp.include_router(user_router)
+    dp.include_router(user_router)
     try:
         for admin in admins:
             await bot.send_message(chat_id=admin, text='Launching...')
